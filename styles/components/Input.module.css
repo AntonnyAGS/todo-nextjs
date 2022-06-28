@@ -1,3 +1,14 @@
 .defaultInput {
-  border-radius: 4px;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid var(--neutral-darkest);
+  font-size: 1rem;
+  padding: 8px 4px !important;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.defaultInput:focus {
+  outline: none;
+  border-bottom: 1px solid var(--primary-main);
+  color: var(--primary-main);
 }
