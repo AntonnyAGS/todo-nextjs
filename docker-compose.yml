@@ -1,0 +1,41 @@
+
+version: '3'
+
+services: 
+  mongo-mba:
+    image: mongo:4.4.14
+    networks: 
+      - mongodb_network
+    volumes:
+      - mongodb_data:/bitnami
+    ports:
+      - "27017:27017"
+    environment: 
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGODB_DATABASE}
+  
+  admin-api:
+    image: "node:16-slim"
+    networks:
+      - base_network
+      - mongodb_network
+    ports: 
+      - "3000:3000"
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+    depends_on: 
+      - mongodb
+    volumes: 
+      - ./:/app
+    environment:
+      NODE_ENV: development
+      MONGO_URI: "mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_ADDRESS}:27017" 
+
+networks:
+  base_network:
+  mongodb_network:
+
+volumes: 
+  mongodb_data:
+  project_api:

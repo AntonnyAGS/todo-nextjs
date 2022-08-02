@@ -10,12 +10,13 @@ export const connectToDb =
 
     if (!isConnected) {
       /** Should put it on env */
-      const DB_CONN =
-        "mongodb+srv://admin:4dm1n@cluster0.wljry.mongodb.net/?retryWrites=true&w=majority";
+      const DB_CONN = process.env.MONGO_URI!;
+
+      console.log(DB_CONN);
 
       connection.on("connected", () => console.info("Connected on DB!"));
       connection.on("error", (err) =>
-        console.error("Should not connect to DB! ==>", err)
+        console.error("Should not connect to DB! ==>", JSON.stringify(err))
       );
 
       await connect(DB_CONN);

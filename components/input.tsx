@@ -4,16 +4,32 @@ interface InputProps
   extends React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
-  > {}
+  > {
+  prependIcon?: JSX.Element;
+  appendInner?: JSX.Element;
+}
 
-const Input = ({ className, ...props }: InputProps): JSX.Element => {
+const Input = ({
+  className,
+  prependIcon,
+  appendInner,
+  ...props
+}: InputProps): JSX.Element => {
   return (
-    <input
-      {...props}
-      className={
-        className ? `${styles.defaultInput} ${className}` : styles.defaultInput
-      }
-    />
+    <div className={styles.defaultInputContainer}>
+      {prependIcon}
+      <div className={styles.defaultInputWrapper}>
+        <input
+          {...props}
+          className={
+            className
+              ? `${styles.defaultInput} ${className}`
+              : styles.defaultInput
+          }
+        />
+        {appendInner}
+      </div>
+    </div>
   );
 };
 

@@ -1,14 +1,17 @@
 html,
+body,
+#__next {
+  height: 100%;
+  width: 100%;
+}
+
+html,
 body {
   padding: 0;
   margin: 0;
   font-size: 14px;
-  height: 100vh;
-  width: 100vw;
-  font-family: 'Montserrat', sans-serif;
-  /* font-family: "Inter", sans-serif; */
-  /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
+
+  font-family: "Montserrat", sans-serif;
 }
 
 a {
@@ -20,9 +23,20 @@ a {
   box-sizing: border-box;
 }
 
+#__next {
+  flex: 1 1 0;
+}
+
 :root {
+  --default-spacing: 8px;
+
   --primary-main: #ed1164;
 
   --neutral-darkest: #91a3ad;
   --neutral-lightest: #ffffff;
+
+  --max-mobile: 480px;
+  --max-tablet: 768px;
+  --max-lg: 1024px;
+  --max-xl: 1200px;
 }
