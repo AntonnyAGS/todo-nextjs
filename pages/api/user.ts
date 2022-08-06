@@ -1,7 +1,8 @@
+import md5 from "md5";
 import { UserModel } from "../../models/user.schema";
-import { BadRequestException } from "./exceptions/bad-request.exception";
-import { InternalException } from "./exceptions/internal.exception";
-import { onPost } from "./middlewares/on-post.handler";
+import { BadRequestException } from "../../utils/exceptions/bad-request.exception";
+import { InternalException } from "../../utils/exceptions/internal.exception";
+import { onPost } from "../../utils/middlewares/on-post.handler";
 
 interface UserInput {
   name?: string;
@@ -37,7 +38,7 @@ const handler = onPost(async (req, res) => {
 
     validate({ name, email, password });
 
-    await UserModel.create({ email, name, password });
+    await UserModel.create({ email, name, password: md5(password) });
 
     return res.status(201).end();
   } catch (err) {

@@ -1,4 +1,4 @@
-import styles from "../styles/components/Input.module.css";
+import styles from "../styles/components/Input.module.scss";
 
 interface InputProps
   extends React.DetailedHTMLProps<
@@ -27,7 +27,7 @@ const Input = ({
               : styles.defaultInput
           }
         />
-        {appendInner}
+        <span>{appendInner}</span>
       </div>
     </div>
   );

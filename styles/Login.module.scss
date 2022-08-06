@@ -1,0 +1,51 @@
+@import "./config.scss";
+
+.container,
+.form,
+.containerLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  background: white;
+  height: 100%;
+  flex: 1 1 0;
+  padding: calc($default-spacing * 4);
+  gap: calc($default-spacing * 4);
+  justify-content: center;
+}
+
+.form {
+  gap: calc($default-spacing * 2);
+}
+
+.form > button {
+  margin-top: calc($default-spacing * 2);
+}
+
+@media screen and (min-width: $lg-breakpoint) {
+  .container {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .containerLeft,
+  .containerRight {
+    flex: 1;
+  }
+
+  .containerRight {
+    display: flex;
+    justify-content: center;
+  }
+
+  .form {
+    border: 1px solid $primary-main;
+    border-radius: 30px;
+
+    max-width: 400px;
+    flex: 1;
+    padding: calc($default-spacing * 8) calc($default-spacing * 4);
+  }
+}

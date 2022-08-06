@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { InternalException } from "../exceptions/internal.exception";
-import { ensureNonNullable } from "../../../utils/ensure-non-nullable";
+import { ensureNonNullable } from "../ensure-non-nullable";
 import { UnauthorizedException } from "../exceptions/unauthorized.exception";
 import { ForbiddenException } from "../exceptions/forbidden.exception";
 

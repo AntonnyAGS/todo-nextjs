@@ -1,0 +1,14 @@
+@import "../config.scss";
+
+.defaultButton {
+  background-color: $primary-main;
+  height: 56px;
+  border-radius: 12px;
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border: none;
+  padding: $default-spacing;
+  cursor: pointer;
+}

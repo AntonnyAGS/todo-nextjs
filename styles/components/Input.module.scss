@@ -1,0 +1,34 @@
+@import "../config.scss";
+
+.defaultInputWrapper {
+  border-radius: 0;
+  background-color: transparent;
+  flex: 1;
+  border: none;
+  border-bottom: 1px solid $neutral-medium;
+  padding: $default-spacing calc($default-spacing / 2) !important;
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+
+  > span {
+    cursor: pointer;
+  }
+}
+
+.defaultInput {
+  border: none;
+  width: 100%;
+  font-size: 1rem;
+  outline: none;
+  color: $primary-main;
+}
+
+.defaultInputWrapper:focus-within {
+  border-bottom: 1px solid $primary-main;
+}
+
+.defaultInputContainer {
+  display: flex;
+  gap: $default-spacing;
+  width: 100%;
+}

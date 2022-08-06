@@ -16,7 +16,7 @@ services:
       MONGO_INITDB_DATABASE: ${MONGODB_DATABASE}
   
   admin-api:
-    image: "node:16-slim"
+    image: node:lts-alpine
     networks:
       - base_network
       - mongodb_network
@@ -30,7 +30,8 @@ services:
       - ./:/app
     environment:
       NODE_ENV: development
-      MONGO_URI: "mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_ADDRESS}:27017" 
+      MONGO_URI: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_ADDRESS}:27017
+      PRIVATE_KEY: ${PRIVATE_KEY}
 
 networks:
   base_network:

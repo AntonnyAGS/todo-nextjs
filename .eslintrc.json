@@ -1,3 +1,4 @@
 {
+  "unknownAtRules": "ignore",
   "extends": "next/core-web-vitals"
 }

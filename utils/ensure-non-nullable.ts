@@ -1,4 +1,4 @@
-import { InternalException } from "../pages/api/exceptions/internal.exception";
+import { InternalException } from "./exceptions/internal.exception";
 
 export function ensureNonNullable<T>(
   data: T | null | undefined,

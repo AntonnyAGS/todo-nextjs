@@ -1,13 +1,45 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import Img from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { FormEvent, useState } from "react";
 import Button from "../components/button";
 import Input from "../components/input";
-import styles from "../styles/Login.module.css";
+import { useBreakpoints } from "../hooks/use-breakpoints";
+import { fetch } from "../services/http-client";
+import styles from "../styles/Login.module.scss";
+
+interface LoginResponse {
+  email: string;
+  name: string;
+  token: string;
+}
 
 const Login: NextPage = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
+  const { isMobile } = useBreakpoints();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const body = { email, password };
+
+    try {
+      const { data } = await fetch<unknown, LoginResponse>("/login", "POST", {
+        body,
+      });
+      const { email, name, token } = data;
+
+      localStorage.setItem("todo:user", JSON.stringify({ email, name, token }));
+
+      router.push("/");
+    } catch (err) {
+      throw err;
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -19,14 +51,15 @@ const Login: NextPage = () => {
           className={styles.logo}
           src="/logo.svg"
           alt="Logo FIAP"
-          width="100%"
-          height="50px"
+          width={ isMobile ? "100%" : "520px" }
+          height={ isMobile ? "50px" : "100%" }
         />
       </div>
 
       <div className={styles.containerRight}>
-        <div className={styles.innerContainer}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <Input
+            required
             placeholder="Email"
             type="email"
             prependIcon={
@@ -37,9 +70,11 @@ const Login: NextPage = () => {
                 alt="Email icon"
               />
             }
+            onChange={({ target }) => setEmail(target.value)}
           />
 
           <Input
+            required
             placeholder="Senha"
             type={isPasswordVisible ? "text" : "password"}
             prependIcon={
@@ -59,10 +94,13 @@ const Login: NextPage = () => {
                 onClick={() => setIsPasswordVisible(!isPasswordVisible)}
               />
             }
+            onChange={({ target }) => setPassword(target.value)}
           />
 
-          <Button fluid>Entrar</Button>
-        </div>
+          <Button fluid type="submit">
+            Entrar
+          </Button>
+        </form>
       </div>
     </div>
   );
