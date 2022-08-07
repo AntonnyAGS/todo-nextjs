@@ -1,0 +1,85 @@
+@import "../config.scss";
+
+.container {
+  background-color: $neutral-lightest;
+  border-radius: 12px;
+
+  padding: $default-spacing * 2;
+}
+
+.form {
+  display: none;
+}
+
+.title {
+  padding: $default-spacing;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  min-height: 48px;
+
+  img {
+    width: 24px;
+    height: 24px;
+
+    cursor: pointer;
+  }
+
+  span {
+    font-size: 1.185rem;
+    font-weight: 500;
+    color: $primary-main;
+  }
+}
+
+.filterItem {
+  display: flex;
+
+  gap: $default-spacing;
+}
+
+.formMobile {
+  display: flex;
+  flex-direction: column;
+
+  gap: $default-spacing * 2;
+}
+
+.formMobile > .filterItem {
+  align-items: center;
+
+  label {
+    flex: 1;
+  }
+
+  input {
+    flex: 1;
+  }
+}
+
+@media screen and (min-width: $lg-breakpoint) {
+  .container {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .title {
+    img {
+      display: none;
+    }
+  }
+
+  .form {
+    display: flex;
+
+    gap: $default-spacing;
+  }
+
+  .formMobile {
+    display: none;
+  }
+}

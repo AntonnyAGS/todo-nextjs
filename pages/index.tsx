@@ -1,28 +1,80 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { getLoggedUser } from "../utils/get-logged-user";
-import { useMounted } from "../hooks/use-mounted";
 import styles from "../styles/Home.module.scss";
-import { Footer, Header } from "../components";
+import { Filters, Footer, Header, TaskFilter } from "../components";
 import Head from "next/head";
+import { fetch, HttpError } from "../services/http-client";
+import { Task } from "../models/task.schema";
+import { useEffect, useState } from "react";
+import { useNotification } from "../hooks/use-notification";
+import { TaskList } from "../components/task-list";
+import { ClientOnly } from "../components/client-only";
+import { CustomModal } from "../components/modal";
+import { CreateTaskModal } from "../components/create-modal";
 
 const Home: NextPage = () => {
-  const { isMounted } = useMounted();
   const router = useRouter();
+  const { notify } = useNotification();
 
-  if (isMounted) {
-    const user = getLoggedUser();
-    !user && router.push("/login");
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [filters, setFilters] = useState<Filters>({} as Filters);
+  const [showModal, setShowModal] = useState(false);
+
+  const loadTasks = async () => {
+    try {
+      const { data } = await fetch<unknown, Task[]>("/task", "GET");
+
+      setTasks(data);
+    } catch (err) {
+      const data = (err as HttpError)?.response?.data;
+
+      if (data) {
+        notify(data.message as string, "error");
+
+        return;
+      }
+
+      notify("Erro desconhecido ao recuperar lista de tarefas", "error");
+    }
+  };
+
+  const createTask = async () => {
+    try {
+    } catch (err) {
+
+    }
   }
 
+  useEffect(() => {
+    const user = getLoggedUser();
+
+    if (!user) {
+      router.push("/login");
+    } else {
+      loadTasks();
+    }
+  }, []);
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Todo - Home</title>
-      </Head>
-      <Header />
-      <Footer />
-    </div>
+    <ClientOnly>
+      <div className={styles.container}>
+        <Head>
+          <title>Todo - Home</title>
+        </Head>
+        <Header onClickAdd={() => setShowModal(true)} />
+        <main>
+          <TaskFilter value={filters} setValue={setFilters} />
+          <TaskList tasks={tasks} />
+        </main>
+        <Footer onClickAdd={() => setShowModal(true)} />
+        <CreateTaskModal
+          show={showModal}
+          onClickClose={() => setShowModal(false)}
+          onSubmit={() => {}}
+        />
+      </div>
+    </ClientOnly>
   );
 };
 

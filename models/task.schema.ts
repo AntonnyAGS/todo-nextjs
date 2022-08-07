@@ -1,11 +1,13 @@
-import { Schema, models, model, Model } from "mongoose";
-
+import { Schema, models, model, Model, ObjectId } from "mongoose";
 interface ITask {
   name: string;
-  email: string;
   userId: string;
   previsionDate: Date;
   finishDate: Date;
+}
+
+export interface Task extends ITask {
+  _id: string;
 }
 
 const TaskSchema = new Schema<ITask>({
@@ -16,4 +18,4 @@ const TaskSchema = new Schema<ITask>({
 });
 
 export const TaskModel =
-  (models.users as Model<ITask>) || model<ITask>("tasks", TaskSchema);
+  (models.tasks as Model<ITask>) || model<ITask>("tasks", TaskSchema);

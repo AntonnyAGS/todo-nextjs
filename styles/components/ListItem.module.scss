@@ -1,0 +1,17 @@
+@import "../config.scss";
+
+.default {
+  display: flex;
+  gap: $default-spacing * 2;
+
+  background-color: $neutral-lightest;
+
+  padding: $default-spacing * 2;
+  border-radius: $default-spacing;
+
+  div {
+    p {
+      font-weight: 600;
+    }
+  }
+}

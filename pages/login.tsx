@@ -2,11 +2,11 @@ import { NextPage } from "next";
 import Head from "next/head";
 import Img from "next/image";
 import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
+import { FormEvent, useCallback, useState } from "react";
 import Button from "../components/button";
 import Input from "../components/input";
-import { useBreakpoints } from "../hooks/use-breakpoints";
-import { fetch } from "../services/http-client";
+import { useNotification } from "../hooks/use-notification";
+import { fetch, HttpError } from "../services/http-client";
 import styles from "../styles/Login.module.scss";
 
 interface LoginResponse {
@@ -20,26 +20,40 @@ const Login: NextPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-  const { isMobile } = useBreakpoints();
+  const { notify } = useNotification();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(
+    async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
 
-    const body = { email, password };
+      const body = { email, password };
 
-    try {
-      const { data } = await fetch<unknown, LoginResponse>("/login", "POST", {
-        body,
-      });
-      const { email, name, token } = data;
+      try {
+        const { data } = await fetch<unknown, LoginResponse>("/login", "POST", {
+          body,
+        });
+        const { email, name, token } = data;
 
-      localStorage.setItem("todo:user", JSON.stringify({ email, name, token }));
+        localStorage.setItem(
+          "todo:user",
+          JSON.stringify({ email, name, token })
+        );
 
-      router.push("/");
-    } catch (err) {
-      throw err;
-    }
-  };
+        router.push("/");
+      } catch (err) {
+        const data = (err as HttpError)?.response?.data;
+
+        if (data) {
+          notify(data.message as string, "error");
+
+          return;
+        }
+
+        notify("Erro desconhecido ao logar", "error");
+      }
+    },
+    [email, password]
+  );
 
   return (
     <div className={styles.container}>
@@ -51,8 +65,9 @@ const Login: NextPage = () => {
           className={styles.logo}
           src="/logo.svg"
           alt="Logo FIAP"
-          width={ isMobile ? "100%" : "520px" }
-          height={ isMobile ? "50px" : "100%" }
+          layout="responsive"
+          width={"100%"}
+          height={"100%"}
         />
       </div>
 

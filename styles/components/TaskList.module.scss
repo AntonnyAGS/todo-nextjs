@@ -1,0 +1,10 @@
+@import "../config.scss";
+
+.default {
+  display: flex;
+  flex-direction: column;
+
+  gap: $default-spacing;
+
+  padding: $default-spacing 0;
+}

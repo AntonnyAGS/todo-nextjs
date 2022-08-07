@@ -6,7 +6,7 @@
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid $neutral-medium;
+  border-bottom: 1px solid $neutral-lightest;
   padding: $default-spacing * 3;
 
   button {
@@ -23,6 +23,10 @@
   align-items: center;
   gap: $default-spacing;
   color: $primary-main;
+
+  > span:last-child {
+    cursor: pointer;
+  }
 }
 
 .rightContainerDesktop {

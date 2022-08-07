@@ -1,0 +1,32 @@
+@import '../config.scss';
+
+.mobile {
+  padding: $default-spacing;
+
+  button {
+    background-color: $neutral-lightest;
+    color: $primary-main;
+
+    display: flex;
+    align-items: center;
+
+    > span:last-child {
+      flex: 2;
+    }
+  }
+}
+
+.desktop {
+  padding: $default-spacing * 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-top: 1px solid $neutral-lightest;
+}
+
+@media screen and (min-width: $lg-breakpoint) {
+  .mobile {
+    display: none;
+  }
+}

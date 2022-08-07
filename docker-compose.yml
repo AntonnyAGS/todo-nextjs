@@ -15,8 +15,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
       MONGO_INITDB_DATABASE: ${MONGODB_DATABASE}
   
-  admin-api:
-    image: node:lts-alpine
+  app:
+    image: node:18
     networks:
       - base_network
       - mongodb_network
@@ -27,7 +27,7 @@ services:
     depends_on: 
       - mongodb
     volumes: 
-      - ./:/app
+       - .:/app
     environment:
       NODE_ENV: development
       MONGO_URI: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_ADDRESS}:27017
@@ -39,4 +39,4 @@ networks:
 
 volumes: 
   mongodb_data:
-  project_api:
+  

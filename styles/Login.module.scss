@@ -7,6 +7,10 @@
   flex-direction: column;
 }
 
+.containerLeft {
+  height: 6%;
+}
+
 .container {
   background: white;
   height: 100%;
@@ -30,13 +34,18 @@
     align-items: center;
   }
 
-  .containerLeft,
-  .containerRight {
-    flex: 1;
+  .containerLeft {
+    height: 20%;
+    max-height: 140px;
+  }
+
+  .containerLeft{
+    flex: 1.25;
   }
 
   .containerRight {
     display: flex;
+    flex: 1;
     justify-content: center;
   }
 

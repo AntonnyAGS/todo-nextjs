@@ -1,5 +1,6 @@
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { Exception } from "../exceptions/default.exception";
+import { InternalException } from "../exceptions/internal.exception";
 import { MethodNotAllowedException } from "../exceptions/method-not-allowed.exception";
 import { connectToDb } from "./connect-to-db";
 
@@ -9,13 +10,6 @@ interface OnReqOptions {
   putHandler?: NextApiHandler;
   deleteHandler?: NextApiHandler;
 }
-
-// const responseStatusMapper: Record<string, number> = {
-//   'POST': 201,
-//   'GET': 200,
-//   'DELETE': 204,
-
-// }
 
 const onReqHandler =
   ({ postHandler, getHandler, putHandler, deleteHandler }: OnReqOptions) =>
@@ -58,7 +52,9 @@ const onReqHandler =
         return res.status(err.status).json(err.toJSON());
       }
 
-      return res.status(500).json({ message: "Erro desconhecido!" });
+      const error = new InternalException(err);
+
+      return res.status(error.status).json(error.toJSON());
     }
   };
 

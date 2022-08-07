@@ -1,0 +1,38 @@
+@import "../config.scss";
+
+.container {
+  max-width: 400px;
+  border: 1px solid grey;
+  min-width: 200px;
+  padding: $default-spacing * 2 $default-spacing * 2;
+  border-radius: 4px;
+
+  font-size: 0.875rem;
+
+  transition: transform 1s;
+  transform: translateX(0);
+
+  cursor: pointer;
+}
+
+.title {
+  text-transform: uppercase;
+  color: white;
+
+  margin-bottom: 16px;
+}
+
+.error {
+  background-color: $error-color;
+  color: white;
+}
+
+.success {
+  background-color: green;
+  color: white;
+}
+
+.warning {
+  background-color: blue;
+  color: white;
+}
