@@ -12,8 +12,6 @@ export const connectToDb =
       /** Should put it on env */
       const DB_CONN = process.env.MONGO_URI!;
 
-      console.log(DB_CONN);
-
       connection.on("connected", () => console.info("Connected on DB!"));
       connection.on("error", (err) =>
         console.error("Should not connect to DB! ==>", JSON.stringify(err))

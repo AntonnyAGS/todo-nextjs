@@ -7,24 +7,26 @@ interface InputProps
   > {
   prependIcon?: JSX.Element;
   appendInner?: JSX.Element;
+  variant?: 'outline' | 'default';
 }
 
 const Input = ({
   className,
   prependIcon,
   appendInner,
+  variant,
   ...props
 }: InputProps): JSX.Element => {
   return (
     <div className={styles.defaultInputContainer}>
       {prependIcon}
-      <div className={styles.defaultInputWrapper}>
+      <div className={variant ? styles[variant] : styles.defaultInputWrapper}>
         <input
           {...props}
           className={
             className
               ? `${styles.defaultInput} ${className}`
-              : styles.defaultInput
+              : `${styles.defaultInput}`
           }
         />
         <span>{appendInner}</span>

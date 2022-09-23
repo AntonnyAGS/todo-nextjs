@@ -10,7 +10,7 @@ export interface Task extends ITask {
   _id: string;
 }
 
-const TaskSchema = new Schema<ITask>({
+export const TaskSchema = new Schema<ITask>({
   name: { type: String, required: true },
   userId: { type: String, required: true },
   previsionDate: { type: Date, required: true },

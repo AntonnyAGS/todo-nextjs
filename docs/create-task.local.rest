@@ -1,8 +1,8 @@
 POST http://localhost:3000/api/task
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmVlNTA1OGQ0OTU2NDVlOGQ4YmQ4ZDIiLCJpYXQiOjE2NTk3ODg3NDV9.7Wd4gIyWadste9f-mYs2sjACLY36D_23z2i4f5Gt9EY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzEyOGEyNThkMGE1YzFkMjdkYjc0ZmIiLCJpYXQiOjE2NjM4MDIyODR9.gsCvGiqL3-ueBWNzRbHAaicaUUO_kMm6UmZtQhXI-DI
 
 {
   "name": "Nova task",
-  "previsionDate": "2022-08-06"
+  "previsionDate": "2022-09-15"
 }

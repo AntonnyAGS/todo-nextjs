@@ -15,6 +15,20 @@
   }
 }
 
+.outline {
+  background-color: white;
+  flex: 1;
+  border: 1px solid $neutral-medium;
+  border-radius: 4px;
+  padding: $default-spacing calc($default-spacing / 2) !important;
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+
+  > span {
+    cursor: pointer;
+  }
+}
+
 .defaultInput {
   border: none;
   width: 100%;
@@ -30,5 +44,6 @@
 .defaultInputContainer {
   display: flex;
   gap: $default-spacing;
-  width: 100%;
+
+  flex: 1;
 }

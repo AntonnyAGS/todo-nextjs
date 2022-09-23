@@ -1,5 +1,6 @@
+import { FilterQuery } from "mongoose";
 import { NextApiHandler } from "next";
-import { TaskModel } from "../../models/task.schema";
+import { Task, TaskModel } from "../../models/task.schema";
 import { BadRequestException } from "../../utils/exceptions/bad-request.exception";
 import { jwtValidator } from "../../utils/middlewares/jwt-validator";
 import { onReq } from "../../utils/middlewares/on-req.handler";
@@ -9,6 +10,7 @@ export type TaskInput = {
   previsionDate: Date;
   finishDate?: Date;
 };
+
 const validation = ({ name, previsionDate, finishDate }: TaskInput) => {
   if (!name || name.length < 2) {
     throw new BadRequestException("Nome inválido");
@@ -37,7 +39,49 @@ const onPostHandler: NextApiHandler = async (req, res) => {
 };
 
 const onGetHandler: NextApiHandler = async (req, res) => {
-  const resources = await TaskModel.find();
+  const { userId, startDate, endDate, status } = req.query;
+
+  let query: FilterQuery<Task> = { userId };
+
+  if (startDate) {
+    query = {
+      ...query,
+      previsionDate: {
+        $gte: new Date(startDate as string),
+      },
+    };
+  }
+
+  if (endDate) {
+    query = {
+      ...query,
+      previsionDate: {
+        $lte: new Date(endDate as string),
+      },
+    };
+  }
+
+  if (startDate && endDate) {
+    query = {
+      ...query,
+      previsionDate: {
+        $gte: new Date(startDate as string),
+        $lte: new Date(endDate as string),
+      },
+    };
+  }
+
+  if (status) {
+    if (status === "done") {
+      query = { ...query, finishDate: { $exists: true } };
+    }
+
+    if (status === "active") {
+      query = { ...query, finishDate: { $exists: false } };
+    }
+  }
+
+  const resources = await TaskModel.find(query);
 
   return res.status(200).json(resources);
 };

@@ -4,8 +4,9 @@ import { TaskFilterItemDate } from "./task-filter-date";
 import { TaskFilterStatus } from "./task-filter-status";
 
 export interface Filters {
-  startDate: string;
-  endDate: string;
+  startDate?: string;
+  endDate?: string;
+  status?: "all" | "active" | "done";
 }
 
 interface FiltersProps {
@@ -19,7 +20,11 @@ export const TaskFilter = ({ value, setValue }: FiltersProps): JSX.Element => {
   const handleFiltersChange = (key: keyof Filters, data: string) => {
     const obj = { ...value };
 
-    obj[key] = data;
+    if (key === "status") {
+      obj["status"] = data as "all" | "active" | "done";
+    } else {
+      obj[key] = data;
+    }
 
     setValue(obj);
   };
@@ -44,7 +49,7 @@ export const TaskFilter = ({ value, setValue }: FiltersProps): JSX.Element => {
           <TaskFilterItemDate
             title="até:"
             setValue={(value) => {
-              console.log(value);
+              handleFiltersChange("endDate", value);
             }}
           />
           <TaskFilterStatus setValue={(value) => console.log(value)} />
@@ -59,11 +64,13 @@ export const TaskFilter = ({ value, setValue }: FiltersProps): JSX.Element => {
         <TaskFilterItemDate
           title="até:"
           setValue={(value) => {
-            console.log(value);
+            handleFiltersChange("endDate", value);
           }}
         />
         |
-        <TaskFilterStatus setValue={(value) => console.log(value)} />
+        <TaskFilterStatus
+          setValue={(value) => handleFiltersChange("status", value)}
+        />
       </div>
     </div>
   );

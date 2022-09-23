@@ -38,6 +38,11 @@
   display: flex;
 
   gap: $default-spacing;
+  align-items: center;
+
+  label {
+    margin-bottom: 0;
+  }
 }
 
 .formMobile {
@@ -77,6 +82,7 @@
     display: flex;
 
     gap: $default-spacing;
+    align-items: center;
   }
 
   .formMobile {

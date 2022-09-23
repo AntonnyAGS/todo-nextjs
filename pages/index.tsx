@@ -4,18 +4,19 @@ import { getLoggedUser } from "../utils/get-logged-user";
 import styles from "../styles/Home.module.scss";
 import { Filters, Footer, Header, TaskFilter } from "../components";
 import Head from "next/head";
-import { fetch, HttpError } from "../services/http-client";
+import { HttpError } from "../services/http-client";
 import { Task } from "../models/task.schema";
 import { useEffect, useState } from "react";
 import { useNotification } from "../hooks/use-notification";
 import { TaskList } from "../components/task-list";
 import { ClientOnly } from "../components/client-only";
-import { CustomModal } from "../components/modal";
 import { CreateTaskModal } from "../components/create-modal";
+import { useTasks } from "../hooks/use-tasks";
 
 const Home: NextPage = () => {
   const router = useRouter();
   const { notify } = useNotification();
+  const { fetch } = useTasks();
 
   const [tasks, setTasks] = useState<Task[]>([]);
   const [filters, setFilters] = useState<Filters>({} as Filters);
@@ -23,7 +24,7 @@ const Home: NextPage = () => {
 
   const loadTasks = async () => {
     try {
-      const { data } = await fetch<unknown, Task[]>("/task", "GET");
+      const data = await fetch(filters);
 
       setTasks(data);
     } catch (err) {
@@ -41,10 +42,8 @@ const Home: NextPage = () => {
 
   const createTask = async () => {
     try {
-    } catch (err) {
-
-    }
-  }
+    } catch (err) {}
+  };
 
   useEffect(() => {
     const user = getLoggedUser();
@@ -55,6 +54,10 @@ const Home: NextPage = () => {
       loadTasks();
     }
   }, []);
+
+  useEffect(() => {
+    loadTasks();
+  }, [filters]);
 
   return (
     <ClientOnly>

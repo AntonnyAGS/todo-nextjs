@@ -1,4 +1,5 @@
 import styles from "../styles/components/TaskFilter.module.scss";
+import { Select } from "./select";
 
 interface TaskFilterItemStatus {
   setValue: (value: string) => void;
@@ -12,11 +13,16 @@ export const TaskFilterStatus = ({
   return (
     <div className={styles.filterItem}>
       <label>Status</label>
-      <select value={value} onChange={(e) => setValue(e.target.value)}>
-        <option value="all">Todas</option>
-        <option value="active">Ativas</option>
-        <option value="done">Concluídas</option>
-      </select>
+      <Select
+        value={value}
+        variant='outline'
+        onChange={(e) => setValue(e.target.value)}
+        data={[
+          { value: "all", label: "Todas" },
+          { value: "active", label: "Ativas" },
+          { value: "done", label: "Concluídas" },
+        ]}
+      />
     </div>
   );
 };
