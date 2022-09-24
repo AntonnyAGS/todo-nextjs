@@ -3,7 +3,7 @@ interface ITask {
   name: string;
   userId: string;
   previsionDate: Date;
-  finishDate: Date;
+  finishDate?: Date;
 }
 
 export interface Task extends ITask {

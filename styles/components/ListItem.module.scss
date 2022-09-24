@@ -9,9 +9,25 @@
   padding: $default-spacing * 2;
   border-radius: $default-spacing;
 
+  cursor: pointer;
+
   div {
     p {
       font-weight: 600;
+    }
+  }
+}
+
+.default:hover {
+  border: 1px solid $primary-main;
+}
+
+.finished {
+  div {
+    p {
+      text-decoration: line-through black;
+      // display: none;
+      // text-transform: capitalize !important;
     }
   }
 }

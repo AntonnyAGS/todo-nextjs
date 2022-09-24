@@ -12,15 +12,24 @@ import { TaskList } from "../components/task-list";
 import { ClientOnly } from "../components/client-only";
 import { CreateTaskModal } from "../components/create-modal";
 import { useTasks } from "../hooks/use-tasks";
+import { TaskInput, UpdateTaskInput } from "./api/[[...task]]";
+import { UpdateTaskModal } from "../components/update-modal";
 
 const Home: NextPage = () => {
   const router = useRouter();
   const { notify } = useNotification();
-  const { fetch } = useTasks();
+  const { fetch, insert, update, remove } = useTasks();
 
   const [tasks, setTasks] = useState<Task[]>([]);
   const [filters, setFilters] = useState<Filters>({} as Filters);
-  const [showModal, setShowModal] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<Task>({} as Task);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+
+  const onSelectTask = (task: Task) => {
+    setSelectedTask(task);
+    setShowUpdateModal(true);
+  };
 
   const loadTasks = async () => {
     try {
@@ -40,10 +49,59 @@ const Home: NextPage = () => {
     }
   };
 
-  const createTask = async () => {
+  const updateTask = async (input: UpdateTaskInput) => {
     try {
-    } catch (err) {}
+      await update(input);
+      setShowUpdateModal(false);
+      loadTasks();
+    } catch (err) {
+      const data = (err as HttpError)?.response?.data;
+
+      if (data) {
+        notify(data.message as string, "error");
+
+        return;
+      }
+
+      notify("Erro desconhecido ao atualizar tarefa", "error");
+    }
   };
+
+  const createTask = async (input: TaskInput) => {
+    try {
+      await insert(input);
+      setShowCreateModal(false);
+      loadTasks();
+    } catch (err) {
+      const data = (err as HttpError)?.response?.data;
+
+      if (data) {
+        notify(data.message as string, "error");
+
+        return;
+      }
+
+      notify("Erro desconhecido ao cadastrar tarefa", "error");
+    }
+  };
+
+  const removeTask = async (taskId: string) => {
+    try {
+      await remove(taskId);
+      setShowUpdateModal(false);
+      loadTasks();
+    } catch (err) {
+      const data = (err as HttpError)?.response?.data;
+
+      if (data) {
+        notify(data.message as string, "error");
+
+        return;
+      }
+
+      notify("Erro desconhecido ao apagar tarefa", "error");
+    }
+  }
 
   useEffect(() => {
     const user = getLoggedUser();
@@ -65,16 +123,26 @@ const Home: NextPage = () => {
         <Head>
           <title>Todo - Home</title>
         </Head>
-        <Header onClickAdd={() => setShowModal(true)} />
+        <Header onClickAdd={() => setShowCreateModal(true)} />
         <main>
           <TaskFilter value={filters} setValue={setFilters} />
-          <TaskList tasks={tasks} />
+          <TaskList tasks={tasks} onSelectTask={onSelectTask} />
         </main>
-        <Footer onClickAdd={() => setShowModal(true)} />
+        <Footer onClickAdd={() => setShowCreateModal(true)} />
         <CreateTaskModal
-          show={showModal}
-          onClickClose={() => setShowModal(false)}
-          onSubmit={() => {}}
+          show={showCreateModal}
+          onClickClose={() => setShowCreateModal(false)}
+          onSubmit={createTask}
+        />
+        <UpdateTaskModal
+          task={selectedTask}
+          show={showUpdateModal}
+          onClickClose={() => {
+            setShowUpdateModal(false);
+            setSelectedTask({} as Task);
+          }}
+          onSubmit={updateTask}
+          onRemove={removeTask}
         />
       </div>
     </ClientOnly>

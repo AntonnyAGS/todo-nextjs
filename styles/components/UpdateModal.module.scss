@@ -1,0 +1,40 @@
+@import "../config.scss";
+
+.footer {
+  display: flex;
+  width: 100%;
+  gap: $default-spacing * 2;
+
+  align-items: center;
+
+  padding: $default-spacing;
+  justify-content: space-between;
+
+  div {
+    display: flex;
+    gap: $default-spacing * 2;
+    align-items: center;
+  }
+
+  button {
+    width: 130px !important;
+  }
+
+  > span:first-child {
+    border: 1px solid $primary-main;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0 $default-spacing * 2;
+    border-radius: 4px;
+  }
+}
+
+.body {
+  padding: $default-spacing * 2;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: $default-spacing * 2;
+}

@@ -52,7 +52,7 @@ export const TaskFilter = ({ value, setValue }: FiltersProps): JSX.Element => {
               handleFiltersChange("endDate", value);
             }}
           />
-          <TaskFilterStatus setValue={(value) => console.log(value)} />
+          <TaskFilterStatus setValue={(value) => handleFiltersChange("status", value)} />
         </div>
       )}
 

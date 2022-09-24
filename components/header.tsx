@@ -1,7 +1,6 @@
 import Img from "next/image";
 import { useSession } from "../hooks/use-session";
 import styles from "../styles/components/Header.module.scss";
-import { getLoggedUser } from "../utils/get-logged-user";
 import Button from "./button";
 
 export const Header = ({

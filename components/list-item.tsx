@@ -7,13 +7,11 @@ interface ListItemProps {
   selectTask: (task: Task) => void;
 }
 
-export const ListItem = ({ task }: ListItemProps): JSX.Element => {
+export const ListItem = ({ task, selectTask }: ListItemProps): JSX.Element => {
   const generateDate = (previsionDate: Date, finishDate?: Date) => {
     if (finishDate) {
-      return `Concluída em: ${dayjs(finishDate).format("DD/MM/YYYY")}`;
+      return `Concluída em: ${dayjs(finishDate).utc().format("DD/MM/YYYY")}`;
     }
-
-    console.log(previsionDate);
 
     return `Previsão de conclusão em: ${dayjs(previsionDate)
       .utc()
@@ -22,9 +20,10 @@ export const ListItem = ({ task }: ListItemProps): JSX.Element => {
 
   return (
     <div
-      className={`${task.finishDate ? styles.active : styles.finished} ${
+      className={`${task.finishDate ? styles.finished : styles.active} ${
         styles.default
       }`}
+      onClick={() => selectTask(task)}
     >
       <img
         src={task.finishDate ? "/icons/checked.svg" : "/icons/not-checked.svg"}

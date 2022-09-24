@@ -11,6 +11,10 @@ export type TaskInput = {
   finishDate?: Date;
 };
 
+export type UpdateTaskInput = TaskInput & {
+  id: string;
+};
+
 const validation = ({ name, previsionDate, finishDate }: TaskInput) => {
   if (!name || name.length < 2) {
     throw new BadRequestException("Nome inválido");
@@ -87,10 +91,9 @@ const onGetHandler: NextApiHandler = async (req, res) => {
 };
 
 const onPutHandler: NextApiHandler = async (req, res) => {
-  const { name, previsionDate, finishDate, userId, id } =
-    req.body as TaskInput & {
+  const { name, previsionDate, finishDate, id } =
+    req.body as UpdateTaskInput & {
       userId: string;
-      id: string;
     };
 
   if (!id) {
@@ -99,15 +102,34 @@ const onPutHandler: NextApiHandler = async (req, res) => {
 
   validation({ name, previsionDate, finishDate });
 
-  const result = await TaskModel.updateOne(
-    { _id: id },
-    { name, previsionDate, finishDate, userId }
-  );
+  const result = await TaskModel.findOne({ id });
 
-  return res.status(201).json(result);
+  if (!result) {
+    throw new BadRequestException();
+  }
+
+  result.name = name;
+  result.previsionDate = previsionDate;
+  result.finishDate = finishDate;
+
+  await result.save();
+
+  return res.status(200).json(result);
 };
 
-const onDeleteHandler: NextApiHandler = (req, res) => {};
+const onDeleteHandler: NextApiHandler = async (req, res) => {
+  const { userId, id } = req.query;
+
+  const result = await TaskModel.findOne({ id });
+
+  if (!result || result.userId !== userId) {
+    throw new BadRequestException();
+  }
+
+  await result.delete();
+
+  return res.status(200).end();
+};
 
 const handler = jwtValidator(
   onReq({

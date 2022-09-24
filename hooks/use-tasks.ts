@@ -1,4 +1,5 @@
 import { Task } from "../models/task.schema";
+import { TaskInput, UpdateTaskInput } from "../pages/api/[[...task]]";
 import { fetch as _fetch } from "../services/http-client";
 
 export const useTasks = () => {
@@ -18,5 +19,25 @@ export const useTasks = () => {
     return data;
   };
 
-  return { fetch };
+  const insert = async (input: TaskInput): Promise<Task> => {
+    const { data } = await _fetch<TaskInput, Task>("/task", "POST", {
+      body: input,
+    });
+
+    return data;
+  };
+
+  const update = async (input: UpdateTaskInput): Promise<Task> => {
+    const { data } = await _fetch<TaskInput, Task>("/task", "PUT", {
+      body: input,
+    });
+
+    return data;
+  };
+
+  const remove = async (taskId: string): Promise<void> => {
+    await _fetch<void, void>(`/task/${taskId}`, "DELETE");
+  };
+
+  return { fetch, insert, update, remove };
 };

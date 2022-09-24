@@ -1,8 +1,9 @@
-POST http://localhost:3000/api/task
+PUT http://localhost:3000/api/task
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzJmMDdmNWNiOGU0NWM1OGUyYTYyMDkiLCJpYXQiOjE2NjQwMzQzMTh9.E6Ln5pAGj_bOPIl7B06XCvNywrgX88qmUM0ajdMF6fM
 
 {
+  "id": "",
   "name": "Nova task",
   "previsionDate": "2022-09-15"
 }
