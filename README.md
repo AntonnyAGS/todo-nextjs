@@ -1,5 +1,14 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Pré requisitos
+Para rodar utilizando docker, necessário docker e docker compose.
+
+## Para rodar
+```docker-compose up```
+
+## Acesse o ambiente
+[Ambiente (Vercel)](https://todo-nextjs-lilac.vercel.app)
+
 ## Getting Started
 
 First, run the development server:

@@ -28,7 +28,7 @@ export const fetch = async <RequestType, ResponseType>(
     "Content-Type": "application/json",
     Authorization: `Bearer ${session?.token}`,
   };
-  const URI = "http://localhost:3000/api/" + endpoint;
+  const URI = "/api/" + endpoint;
 
   const { data, status } = await axios({
     headers,
